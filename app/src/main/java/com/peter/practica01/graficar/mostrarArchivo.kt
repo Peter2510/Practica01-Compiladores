@@ -12,6 +12,7 @@ import com.peter.practica01.leerarchivo.Datos
 import com.peter.practica01.leerarchivo.Llamada
 import com.peter.practica01.manejoerrores.ConError
 import com.peter.practica01.manejoerrores.ManejoError
+import com.peter.practica01.reportes.Errores
 import com.peter.practica01.reportes.SinError
 
 
@@ -40,9 +41,11 @@ class mostrarArchivo : AppCompatActivity() {
                 println("A punto de hcaer la comparacion")
                 println("tamaño array error "+ManejoError.obtenerError().size)
                 if(ManejoError.obtenerError().size>0){
-                    val pantalla2: Intent = Intent(this, ConError::class.java)
+                    /*val pantalla2: Intent = Intent(this, ConError::class.java)
                     startActivity(pantalla2)
-                    println("SE ENCONTRARON ERRORES, HOLA DESDE MOSTRAR ARCHIVOS")
+                    println("SE ENCONTRARON ERRORES, HOLA DESDE MOSTRAR ARCHIVOS")*/
+                    val pantallaerror : Intent = Intent(this,Errores::class.java)
+                    startActivity(pantallaerror)
 
                 }else{
                     val intent: Intent = Intent(this, EjecutarGrafica::class.java)

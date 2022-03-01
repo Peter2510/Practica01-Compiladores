@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="vertical" android:gravity="top"
+              tools:context=".Inicial.PantallaOpciones" android:background="#49BDC8">
+
+    <TextView
+            android:text="Def o def = Inicio de declaración"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="20sp"
+            android:textColor="#000000"/>
+    <TextView
+            android:text="Barras / Pie = Tipo de gráfico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="20sp"
+            android:textColor="#000000"/>
+    <TextView
+            android:text="titulo = En gráficos de pie y barras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="20sp"
+            android:textColor="#000000"/>
+    <TextView
+            android:text="ejex = Lista de cadenas separados por comas \n y encerrados entre corchetes, los cuales podrán ser usados en el eje x de la gráfica."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="20sp"
+            android:textColor="#000000"/>
+    <TextView
+            android:text="ejey = Lista de valores numéricos separados por comas y encerrados entre corchetes, los cuales podrán ser usados en el eje y de la gráfica.
+"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="20sp"
+            android:textColor="#000000"/>
+
+</LinearLayout>

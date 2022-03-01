@@ -25,6 +25,9 @@
                 android:name=".Inicial.PantallaOpciones"
                 android:exported="true"/>
         <activity
+                android:name=".reportes.Errores"
+                android:exported="true"/>
+        <activity
                 android:name=".MainActivity"
                 android:exported="true">
             <intent-filter>
