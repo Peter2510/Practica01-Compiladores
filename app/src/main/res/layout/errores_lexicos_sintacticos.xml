@@ -4,10 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".manejoerrores.ConError">
+        tools:context=".manejoerrores.ConError" android:background="#49BDC8">
     <TextView
             android:text="Error, se detectaron errores lexicos \ny/o sintácticos, verifica la entrada y\n vuelve a intentarlo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView5" android:gravity="center"
-            android:layout_gravity="center" android:textSize="20sp"/>
+            android:layout_gravity="center" android:textSize="20sp" android:textColor="#000000"/>
 </LinearLayout>

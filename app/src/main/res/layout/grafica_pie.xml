@@ -4,10 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".graficar.EjecutarGrafica">
+        tools:context=".graficar.EjecutarGrafica" android:background="#49BDC8">
     <TextView
             android:text="Error en la estructura unir.\n Asegurate de colocar la posicion \ncorrecta (ejex,ejey) de cada elemento ingresado. \nRegresa para \nverificar y corregir el error."
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/textView5" android:gravity="center"
-            android:layout_gravity="center" android:textSize="20sp"/>
+            android:layout_gravity="center" android:textSize="20sp" android:textColor="#000000"/>
 </LinearLayout>

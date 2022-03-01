@@ -5,21 +5,22 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Inicial.PantallaOpciones" android:orientation="vertical" android:gravity="center">
+        tools:context=".Inicial.PantallaOpciones" android:orientation="vertical" android:gravity="center"
+        android:background="#49BDC8">
 
     <TextView
             android:text="Opciones"
-            android:layout_width="122dp"
+            android:layout_width="179dp"
             android:layout_height="wrap_content" android:id="@+id/textView"
-            android:textSize="24sp" android:textAlignment="center"/>
+            android:textSize="34sp" android:textAlignment="center" android:textColor="#000000"/>
     <Button
             android:text="Graficar"
-            android:layout_width="wrap_content"
+            android:layout_width="142dp"
             android:layout_height="wrap_content" android:id="@+id/bntGraficar"
             android:insetTop="80dp" android:insetBottom="20dp"/>
     <Button
             android:text="Como Usar"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content" android:id="@+id/btnUso"
             android:insetTop="20dp" android:insetBottom="20dp"/>
 </LinearLayout>

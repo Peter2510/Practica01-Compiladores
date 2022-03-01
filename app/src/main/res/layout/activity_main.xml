@@ -5,12 +5,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" android:orientation="vertical" android:gravity="center">
+        tools:context=".MainActivity" android:orientation="vertical" android:gravity="center"
+        android:background="#49BDC8">
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="195dp"
+            android:layout_height="58dp"
             android:text="Bienvenido"
-            android:id="@+id/textView2" android:textSize="24sp" android:textAlignment="center"/>
+            android:id="@+id/textView2" android:textSize="34sp" android:textAlignment="center"
+            android:textColor="#000000"/>
     <Button
             android:text="Iniciar"
             android:layout_width="wrap_content"
