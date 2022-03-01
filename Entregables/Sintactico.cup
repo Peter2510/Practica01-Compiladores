@@ -1,0 +1,316 @@
+// seccion codigo
+package com.peter.practica01.leerarchivo;
+
+import com.peter.practica01.leerarchivo.Lexico;
+import com.peter.practica01.manejoerrores.ManejoError;
+
+import java_cup.runtime.*;
+
+parser code {:
+
+    
+    Datos datos = new Datos();
+    ManejoError manejarError = new ManejoError();
+    
+
+    public Sintactico(Lexico lexer) {
+        super(lexer);
+    }
+
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+        manejarError.agregarError((String)s.value,s.left+"",s.right+"","Sintactico","");
+    }
+    
+    public void report_fatal_error(String message, Object info) {
+        System.out.println("public void report_fatal_error");
+    }
+
+    /* public void syntax_error(Symbol cur_token) {
+        System.out.println("El error es el simbolo: " + sym.terminalNames[cur_token.sym]);
+        System.out.println(String.format("En la posicion: %d, %d", cur_token.left, cur_token.right));
+    } */
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido.");
+    } 
+:}
+    
+
+
+
+// seccion de terminales
+
+/**
+ * IMPORTANTE: FALLABA POR LO SIGUIENTE:
+ * CADA VEZ QUE SE TRADUCE EL ARCHIVO CUP, TAMBIEN HAY QUE ACTUALIZAR EL ARCHIVO sym.java
+ * Y A MI SE ME OLVIDÓ ESE PASO.
+ * F por el inge XD
+ */
+
+terminal String CORCHETECERRADO,CORCHETEABIERTO,DEF,P_ERROR,LLAVEABIERTA,LLAVECERRADA,BARRAS,PIE,TITULO,EJEX,EJEY,ETIQUETAS,VALORES,UNIR,TIPO,TOTAL,EXTRA,EJECUTAR,PUNTOCOMA,COMA,COMILLADOBLE,PARENTESISABIERTO,PARENTESISCERRADO,PORCENTAJE,CANTIDAD,UMENOS,MAS,MENOS,DIVISION,MULTIPLICACION;
+
+terminal Integer ENTERO;
+
+terminal Double DECIMAL;
+
+terminal String SIMBOLO;
+
+terminal String TEXTO,DOSPUNTOS; 
+
+
+
+
+// seccion de no termimales
+non terminal  s,estructura_barras,estructura_pie,lista_cadena,estructura_ejex,estructura_ejey,opciones_barras,opcion_sin_ejex,estructura_unir,opcion_sin_ejey,opcion_sin_titulo,opcion_sin_unir;
+
+non terminal Integer estructura_opciones_unir,opciones_lista_entero,lista_numeros_enteros;
+
+non terminal String opciones_titulo,cadena,simbolos,estructura_titulo;
+
+non terminal Double lista_numeros,opciones_lista;
+
+
+precedence left MAS,MENOS;
+precedence left MULTIPLICACION, DIVISION;
+precedence right UMENOS; 
+
+// gramatica tipo 2
+
+
+s   ::= estructura_barras {: System.out.println("RECONOZCO LA DEFINCION DE BARRAS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");:}
+     | estructura_pie  {: System.out.println("Estructura Pie xd");:}
+     | estructura_barras s {: System.out.println("Buscando otra estructura"); :}
+     | error s {: System.out.println("Error, buscando otra estrucura"); :}
+    ;
+
+
+estructura_barras  ::= DEF BARRAS LLAVEABIERTA opciones_barras LLAVECERRADA {: System.out.println("ESTRUCTURA BARRAS FUNCIONANDO"); datos.cambiarContador(); :}   
+                    
+                    ;
+
+
+
+opciones_barras ::= estructura_ejex opcion_sin_ejex {: :}
+                | estructura_ejey opcion_sin_ejey {: :}
+                | estructura_titulo opcion_sin_titulo {: :}
+                | estructura_unir opcion_sin_unir {: :}
+                | error opciones_barras {: :}
+                ;
+
+
+opcion_sin_ejex ::= estructura_ejey estructura_titulo estructura_unir {: :}
+                |   estructura_ejey estructura_unir estructura_titulo {: :}
+                |   estructura_titulo estructura_ejey estructura_unir {: :}
+                |   estructura_titulo estructura_unir estructura_ejey {: :}
+                |   estructura_unir estructura_ejey estructura_titulo {: :}
+                |   error opcion_sin_ejex {: :}
+                ;
+
+opcion_sin_ejey ::= estructura_ejex estructura_titulo estructura_unir {: :}
+                |   estructura_ejex estructura_unir estructura_titulo {: :}
+                |   estructura_titulo estructura_ejex estructura_unir {: :}
+                |   estructura_titulo estructura_unir estructura_ejex {: :}
+                |   estructura_unir estructura_ejex estructura_titulo {: :}
+                |   estructura_unir estructura_titulo estructura_ejex {: :}
+                |   error opcion_sin_ejey {: :}
+                ;
+
+opcion_sin_titulo ::= estructura_ejex estructura_ejey estructura_unir {: :}
+                |   estructura_ejex estructura_unir estructura_ejey {: :}
+                |   estructura_ejey estructura_ejex estructura_unir {: :}
+                |   estructura_ejey estructura_unir estructura_ejex {: :}
+                |   estructura_unir estructura_ejex estructura_ejey {: :}
+                |   estructura_unir estructura_ejey estructura_ejex {: :}
+                |   error opcion_sin_titulo {: :}
+                ;
+
+opcion_sin_unir ::= estructura_ejex estructura_ejey estructura_titulo {: :}
+                |   estructura_ejex estructura_titulo estructura_ejey {: :}
+                |   estructura_titulo estructura_ejex estructura_ejey {: :}
+                |   estructura_titulo estructura_ejey estructura_ejex {: :}
+                |   estructura_ejey estructura_ejex estructura_titulo {: :}
+                |   estructura_ejey estructura_titulo estructura_ejex {: :}
+                |   error opcion_sin_unir {: :}
+                ;
+
+
+estructura_titulo ::= TITULO DOSPUNTOS cadena:titulo  PUNTOCOMA {: 
+                                                                System.out.println("**TITULO**: " + titulo); 
+                                                                /* agrego titlos*/  datos.addTitulo(titulo);
+                                                                :}
+                    
+                    ;
+
+
+opciones_titulo ::= TEXTO:titulo                               {: RESULT = titulo + ""; /* System.out.println("TEXTO"); */:}
+                |   ENTERO:titulo                              {: RESULT = titulo + ""; /*System.out.println("ENTERO"); */:}
+                |   DECIMAL:titulo                             {: RESULT = titulo + ""; /*System.out.println("DECIMAL"); */:}
+                |   SIMBOLO :titulo                            {: RESULT = titulo + ""; /*System.out.println("SIMBOLO");*/:}
+                |   simbolos:titulo                            {: RESULT = titulo + ""; /*System.out.println("simbolo reservado");*/:}
+                |   simbolos:titulo opciones_titulo:titulo2     {: RESULT = titulo + " " + titulo2;/* System.out.println("DOBLE"); */:}
+                |   TEXTO:titulo opciones_titulo:titulo2       {: RESULT = titulo + " " + titulo2;/* System.out.println("DOBLE"); */:}
+                |   SIMBOLO:titulo opciones_titulo:titulo2     {: RESULT = titulo + " " + titulo2 ; /*System.out.println("DOBLE"); */:}
+                |   ENTERO:titulo opciones_titulo:titulo2      {: RESULT = titulo + " " + titulo2; /*System.out.println("DOBLE"); */:}
+                |   DECIMAL:titulo opciones_titulo:titulo2     {: RESULT = titulo + " " + titulo2;/* System.out.println("DOBLE"); */:}
+                |   error opciones_titulo {: :}
+                ;
+
+
+simbolos ::= DOSPUNTOS:texto {:RESULT = texto;:}
+            |CORCHETECERRADO:texto {:RESULT = texto;:}
+            |CORCHETEABIERTO:texto {:RESULT = texto;:}
+            |DEF:texto {:RESULT = texto;:}
+            |LLAVEABIERTA:texto {:RESULT = texto;:}
+            |LLAVECERRADA:texto {:RESULT = texto;:}
+            |BARRAS:texto {:RESULT = texto;:}
+            |PIE:texto {:RESULT = texto;:}
+            |TITULO:texto {:RESULT = texto;:}
+            |EJEX:texto {:RESULT = texto;:}
+            |EJEY:texto {:RESULT = texto;:}
+            |ETIQUETAS:texto {:RESULT = texto;:}
+            |VALORES:texto {:RESULT = texto;:}
+            |UNIR:texto {:RESULT = texto;:}
+            |TIPO:texto {:RESULT = texto;:}
+            |TOTAL:texto {:RESULT = texto;:}
+            |EXTRA:texto {:RESULT = texto;:}
+            |EJECUTAR:texto {:RESULT = texto;:}
+            |PUNTOCOMA:texto {:RESULT = texto;:}
+            |COMA:texto {:RESULT = texto;:}
+            |MAS:texto {:RESULT = texto;:}
+            |MENOS:texto {:RESULT = texto;:}
+            |MULTIPLICACION:texto {:RESULT = texto;:}
+            |DIVISION:texto {:RESULT = texto;:}
+            |PARENTESISABIERTO:texto {:RESULT = texto;:}
+            |PARENTESISCERRADO:texto {:RESULT = texto;:}
+            |PORCENTAJE:texto {:RESULT = texto;:}
+            |CANTIDAD:texto {:RESULT = texto;:}
+            ; 
+
+
+cadena ::= COMILLADOBLE opciones_titulo:hallado COMILLADOBLE {: RESULT= hallado; :}
+        | error opciones_barras {::}
+        ;
+
+
+lista_cadena ::= cadena:cadena1 
+                                        {: RESULT=cadena1;
+                                        
+                                        System.out.println("Cadena leida: " + cadena1); 
+                                        datos.addEjex(cadena1); 
+                                        System.out.println("agrego lista cadena ");
+
+                                        :}
+
+
+            | lista_cadena COMA cadena:cadena3          {:
+                                                        RESULT= cadena3;
+                                                        System.out.println("Cadena leida: " + cadena3);
+                                                        System.out.println("agrego lista cadena coma cadena"); 
+                                                        datos.addEjex(cadena3); 
+                                                        :}
+            
+            | error PUNTOCOMA {::}
+            ;
+
+estructura_ejex ::= EJEX DOSPUNTOS CORCHETEABIERTO lista_cadena CORCHETECERRADO PUNTOCOMA {:/*System.out.println("ESTRUCTRURA EJEX"); */:}
+
+                 ;
+
+estructura_ejey ::= EJEY DOSPUNTOS CORCHETEABIERTO opciones_lista CORCHETECERRADO PUNTOCOMA {:/*_-*/ :}
+            
+             ;
+
+opciones_lista ::= lista_numeros:operacion {:
+                                                        RESULT=operacion; System.out.println("Operacion hallada: " + operacion); 
+                                                        datos.addEjey(operacion);
+                                            :}
+
+                |  opciones_lista COMA lista_numeros:operacion {:
+                                                                    RESULT=operacion; 
+                                                                    System.out.println("Operacion hallada: " + operacion); 
+                                                                    datos.addEjey(operacion);
+                                                 :}
+                
+                ;
+
+estructura_unir ::= UNIR DOSPUNTOS CORCHETEABIERTO estructura_opciones_unir CORCHETECERRADO PUNTOCOMA {: :}
+                    
+                    ;
+
+estructura_opciones_unir ::= LLAVEABIERTA opciones_lista_entero:operacion LLAVECERRADA {: :}
+                           | LLAVEABIERTA opciones_lista_entero:operacion LLAVECERRADA COMA estructura_opciones_unir {: :}
+                           
+                         ;
+
+
+opciones_lista_entero ::= 
+        
+        lista_numeros_enteros:operacion1 COMA lista_numeros_enteros:operacion2 {:
+                                                                                    RESULT=operacion1; 
+                                                                                    System.out.println("Numero 1 : " + operacion1);
+                                                                                    System.out.println("Numero 2 : " + operacion2);
+                                                                                    datos.unir(operacion1,operacion2);
+
+                                                                                :}
+                        ;
+
+
+lista_numeros  ::= 
+    MENOS lista_numeros:a                                       {:RESULT=a*-1;:} %prec UMENOS     
+ |  lista_numeros:a MAS        lista_numeros:b                  {:RESULT=a+b;:}
+ |  lista_numeros:a MENOS      lista_numeros:b                  {:RESULT=a-b;:}
+ |  lista_numeros:a MULTIPLICACION   lista_numeros:b            {:RESULT=a*b;:}
+ |  lista_numeros:a DIVISION   lista_numeros:b                  {:RESULT=a/b;:}
+ |  ENTERO:a                                                    {:RESULT=new Double(a);:}
+ |  DECIMAL:a                                                   {:RESULT=new Double(a);:}
+ |  PARENTESISABIERTO lista_numeros:a PARENTESISCERRADO         {:RESULT=a;:}
+ | error lista_numeros {::}
+;
+
+
+
+lista_numeros_enteros  ::= 
+    MENOS lista_numeros_enteros:a                                               {:RESULT=a*-1;:}%prec UMENOS     
+ |  lista_numeros_enteros:a MAS        lista_numeros_enteros:b                  {:RESULT=a+b;:}
+ |  lista_numeros_enteros:a MENOS      lista_numeros_enteros:b                  {:RESULT=a-b;:}
+ |  lista_numeros_enteros:a MULTIPLICACION   lista_numeros_enteros:b            {:RESULT=a*b;:}
+ |  lista_numeros_enteros:a DIVISION   lista_numeros_enteros:b                  {:RESULT=a/b;:}
+ |  ENTERO:a                                                                    {:RESULT=a;:}
+ |  PARENTESISABIERTO lista_numeros_enteros:a PARENTESISCERRADO                 {:RESULT=a;:}
+ |  error lista_numeros_enteros {::}
+;
+
+
+
+/*estructura_pie  ::= DEF PIE LLAVEABIERTA opciones_pie LLAVECERRADA {: System.out.println("ESTRUCTURA PIE FUNCIONANDO"); :}   
+                    ;
+
+
+opciones_pie ::= estructura_con_tipo_cantidad {: :}
+            | estructura_tipo_porcentaje {: :}
+            ;
+
+estructura_con_tipo_cantidad ::= 
+            
+            ;
+
+estructura_tipo_cantidad ::= TIPO DOSPUNTOS CANTIDAD PUNTOCOMA {:  :}
+                            ;
+
+estructura_etiquetas ::= ETIQUETAS DOSPUNTOS CORCHETEABIERTO lista_cadena CORCHETECERRADO PUNTOCOMA {:System.out.println("ESTRUCTRURA ETIQUETA");:}
+                 ;
+
+estructura_valores ::= VALORES DOSPUNTOS CORCHETEABIERTO lista_numeros CORCHETECERRADO PUNTOCOMA {:System.out.println("ESTRUCTRURA valores");:}
+             
+             ;
+
+estructura_total ::= TOTAL DOSPUNTOS lista_numeros PUNTOCOMA {: :}
+                ;
+
+estructura_extra ::= EXTRA DOSPUNTOS cadena PUNTOCOMA {::}
+                ; */
+
