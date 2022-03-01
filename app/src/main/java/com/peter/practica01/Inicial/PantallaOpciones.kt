@@ -16,10 +16,12 @@ class PantallaOpciones : AppCompatActivity() {
 
         val btnGrafi = findViewById<Button>(R.id.bntGraficar)
 
+
         btnGrafi.setOnClickListener{
             Log.d("Graficar","boton select archivo")
             val intent:Intent = Intent(this,mostrarArchivo::class.java)
             startActivity(intent)
         }
+
     }
 }

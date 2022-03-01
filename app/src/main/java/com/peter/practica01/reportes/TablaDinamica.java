@@ -1,10 +1,12 @@
 package com.peter.practica01.reportes;
 
-import android.content.Context;
-import android.view.Gravity;
-import android.widget.TableLayout;
+
 import android.widget.TableRow;
+import android.content.Context;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.view.Gravity;
+
 
 
 import java.util.ArrayList;

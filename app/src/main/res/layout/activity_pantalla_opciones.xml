@@ -18,9 +18,4 @@
             android:layout_width="142dp"
             android:layout_height="wrap_content" android:id="@+id/bntGraficar"
             android:insetTop="80dp" android:insetBottom="20dp"/>
-    <Button
-            android:text="Como Usar"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content" android:id="@+id/btnUso"
-            android:insetTop="20dp" android:insetBottom="20dp"/>
 </LinearLayout>
