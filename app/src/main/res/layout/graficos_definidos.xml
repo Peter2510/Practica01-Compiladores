@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".graficar.EjecutarGrafica">
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="Tipo del grafico generado"
+                    android:background="@drawable/style_tables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView7"/>
+            <TextView
+                    android:text="Cantidad de definiciones"
+
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/style_tables"
+                    android:layout_height="wrap_content" android:id="@+id/textView6"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="Barras"
+                    android:background="@drawable/style_tables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView11"/>
+            <TextView
+                    android:text="Cantidad"
+                    android:background="@drawable/style_tables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/cantidadBarras"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent">
+            <TextView
+                    android:text="Pie"
+                    android:background="@drawable/style_tables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView17"/>
+            <TextView
+                    android:text="0"
+                    android:background="@drawable/style_tables"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView15"/>
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </TableLayout>
+</LinearLayout>
